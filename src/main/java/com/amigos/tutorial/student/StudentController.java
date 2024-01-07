@@ -2,16 +2,17 @@ package com.amigos.tutorial.student;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.amigos.tutorial.book.Book;
 
 @RestController
 @RequestMapping(path = "api/v1/student")
@@ -34,9 +35,19 @@ public class StudentController {
         studentService.addNewStudent(student);
     }
 
+    @PostMapping("/{studentId}/books")
+    public void addBook(@PathVariable Long studentId, @RequestBody Book book) {
+        studentService.addBook(studentId, book);
+    }
+
     @DeleteMapping(path = "{studentId}")
     public void deleteStudent(@PathVariable("studentId") Long studentId) {
         studentService.deleteStudent(studentId);
+    }
+
+    @DeleteMapping("/{studentId}/books/{bookId}")
+    public void deleteBook(@PathVariable Long studentId, @PathVariable Long bookId) {
+        studentService.deleteBook(studentId, bookId);
     }
 
     @PutMapping(path = "{studentId}")

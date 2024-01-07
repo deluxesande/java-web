@@ -1,14 +1,16 @@
 package com.amigos.tutorial.book;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "api/v1/book")
@@ -25,7 +27,7 @@ public class BookController {
     }
 
     @PostMapping
-    public void addNewBook(Book book) {
+    public void addNewBook(@RequestBody Book book) {
         bookService.addNewBook(book);
     }
 
@@ -39,6 +41,11 @@ public class BookController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String author) {
         bookService.updateBook(bookId, name, author);
+    }
+
+    @PutMapping("/{bookId}/student/{studentId}")
+    public void updateStudent(@PathVariable Long bookId, @PathVariable Long studentId) {
+        bookService.updateStudent(bookId, studentId);
     }
 
 }

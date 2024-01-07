@@ -5,14 +5,19 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.amigos.tutorial.student.Student;
+import com.amigos.tutorial.student.StudentRepository;
+
 import jakarta.transaction.Transactional;
 
 @Service
 public class BookService {
+    private final StudentRepository studentRepository;
     private final BookRepository bookRepository;
 
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, StudentRepository studentRepository) {
         this.bookRepository = bookRepository;
+        this.studentRepository = studentRepository;
     }
 
     public List<Book> getBooks() {
@@ -53,5 +58,17 @@ public class BookService {
         if (author != null && author.length() > 0 && !book.getAuthor().equals(author)) {
             book.setAuthor(author);
         }
+    }
+
+    public void updateStudent(Long bookId, Long studentId) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new IllegalStateException("Book with id " + bookId + " does not exist"));
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalStateException("Student not found"));
+
+        book.setStudent(student);
+
+        bookRepository.save(book);
     }
 }

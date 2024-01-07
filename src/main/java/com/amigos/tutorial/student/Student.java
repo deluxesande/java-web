@@ -3,27 +3,44 @@ package com.amigos.tutorial.student;
 import java.time.LocalDate;
 import java.time.Period;
 
+import com.amigos.tutorial.book.Book;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity // Hikari
-@Table
+@Table(name = "student", uniqueConstraints = {
+        @jakarta.persistence.UniqueConstraint(name = "student_email_unique", columnNames = "email")
+})
 public class Student {
     @Id
     @SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence", allocationSize = 1)
 
     @GeneratedValue(generator = "student_sequence", strategy = jakarta.persistence.GenerationType.SEQUENCE)
 
+    @Column(name = "id", updatable = false)
     private Long id;
+    @Column(name = "name", nullable = false, columnDefinition = "TEXT")
     private String name;
+    @Column(name = "email", nullable = false, columnDefinition = "TEXT")
     private String email;
+    @Column(name = "dob")
     private LocalDate dob;
     @Transient
+    @Column(name = "age", nullable = false, columnDefinition = "INTEGER")
     private Integer age;
+
+    // Relations
+    @OneToOne()
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    private Book book;
 
     public Student() {
 

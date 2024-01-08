@@ -1,4 +1,4 @@
-package com.amigos.tutorial.book;
+package com.amigos.schoolmanagementsystem.config;
 
 import org.springframework.context.annotation.Configuration;
 

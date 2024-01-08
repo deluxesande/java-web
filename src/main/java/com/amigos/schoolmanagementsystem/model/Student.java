@@ -1,17 +1,12 @@
-package com.amigos.tutorial.student;
+package com.amigos.schoolmanagementsystem.model;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.List;
-
-import com.amigos.tutorial.book.Book;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -28,8 +23,10 @@ public class Student {
 
     @Column(name = "id", updatable = false)
     private Long id;
-    @Column(name = "name", nullable = false, columnDefinition = "TEXT")
-    private String name;
+    @Column(name = "first_name", nullable = false, columnDefinition = "TEXT")
+    private String firstName;
+    @Column(name = "last_name", nullable = false, columnDefinition = "TEXT")
+    private String lastName;
     @Column(name = "email", nullable = false, columnDefinition = "TEXT")
     private String email;
     @Column(name = "dob")
@@ -37,27 +34,28 @@ public class Student {
     @Transient
     @Column(name = "age", nullable = false, columnDefinition = "INTEGER")
     private Integer age;
-
-    // Relations
-    @OneToMany(mappedBy = "student")
-    @JsonManagedReference // Used to avoid infinite recursion
-    private List<Book> books;
+    @Column(name = "grade", nullable = false, columnDefinition = "TEXT")
+    private String grade;
 
     public Student() {
 
     }
 
-    public Student(Long id, String name, String email, LocalDate dob) {
+    public Student(Long id, String firstName, String lastName, String email, LocalDate dob, String grade) {
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.dob = dob;
+        this.grade = grade;
     }
 
-    public Student(String name, String email, LocalDate dob) {
-        this.name = name;
+    public Student(String firstName, String lastName, String email, LocalDate dob, String grade) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.dob = dob;
+        this.grade = grade;
     }
 
     public Long getId() {
@@ -68,12 +66,28 @@ public class Student {
         this.id = id;
     }
 
-    public String getName() {
-        return this.name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     public String getEmail() {
@@ -100,25 +114,16 @@ public class Student {
         this.age = age;
     }
 
-    public List<Book> getBooks() {
-        return this.books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
     @Override
     public String toString() {
         return "Student{" +
                 "id=" + id +
-                ",name='" +
-                name +
-                '\'' +
-                ", email='" +
-                email + '\'' +
-                ", dob=" +
-                dob + ", age=" +
-                age + '}';
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", dob=" + dob +
+                ", age=" + age +
+                ", grade='" + grade + '\'' +
+                '}';
     }
 }

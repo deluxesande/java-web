@@ -22,7 +22,6 @@ public class StudentService {
 
     public List<Student> getStudents() {
         return studentRepository.findAll(); // SELECT * FROM student;
-
     }
 
     public Student addNewStudent(Student student) {
